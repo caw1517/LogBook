@@ -47,5 +47,16 @@ namespace backend.Controllers
             return Ok(token);
         }
         
+        //Logout User
+        [HttpPost("logout")]
+        public IActionResult LogoutUser()
+        {
+            //Logout the user
+            _authService.LogoutUser();
+
+            //Return Ok
+            return Ok();
+        }
+        
     }
 }

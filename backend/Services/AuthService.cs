@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.IdentityModel.Tokens;
 
 namespace backend.Services
@@ -9,11 +10,15 @@ namespace backend.Services
     {
         private readonly DataContext _context;
         private readonly IConfiguration _configuration;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IDistributedCache _cache;
 
-        public AuthService(DataContext context, IConfiguration configuration)
+        public AuthService(IDistributedCache cache, DataContext context, IConfiguration configuration, IHttpContextAccessor contextAccessor)
         {
+            _cache = cache;
             _context = context;
             _configuration = configuration;
+            _httpContextAccessor = contextAccessor;
         }
         
         //Get all users
@@ -67,6 +72,13 @@ namespace backend.Services
             string returnToken = CreateToken(user);
             //Return JWT    
             return returnToken;
+        }
+        
+        //Logout User
+        public async Task LogoutUser()
+        {
+            //Remove token from cache
+            await _cache.RemoveAsync(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
         }
 
         //Create Password Hash - password from UserRegisterDTO and converted to hash and salt
