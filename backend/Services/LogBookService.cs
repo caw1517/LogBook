@@ -43,6 +43,12 @@ namespace backend.Services
             //Return that user's Logbook Entries
             return _context.LogBookEntries.AsNoTracking().Where(x => x.UserId == intId).ToList();
         }
+        
+        //Get all logbooks by aircraft id
+        public IEnumerable<LogBookEntry> GetByAircraft(int id)
+        {
+            return _context.LogBookEntries.AsNoTracking().Where(x => x.AircraftId == id).ToList();
+        }
         //Get Airport Info
         public Airport GetIcaoInfo(string ident)
         {

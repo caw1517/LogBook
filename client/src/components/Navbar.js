@@ -1,22 +1,20 @@
-﻿import Link from 'next/link'
-
 export default function NavbarComp() {
-    const userLoggedIn:boolean = false;
-    
+    const userLoggedIn = true;
+
     return (
         <div className="navbarContainer">
             <div className={"placeholder"}></div>
-            
+
             <div className="navbarLinks">
                 <ul>
                     <li>
-                        <Link className={"link"} href="/">LogBooks</Link>
+                        <a className={"link"} href="/">LogBooks</a>
                     </li>
                     <li>
-                        <Link className={"link"} href="/demo">Demo</Link>
+                        <a className={"link"} href="/demo">Demo</a>
                     </li>
                     <li>
-                        <Link className={"link"} href="/about">About</Link>
+                        <a className={"link"} href="/about">About</a>
                     </li>
                 </ul>
                 <div className="searchBar">
@@ -25,7 +23,7 @@ export default function NavbarComp() {
             </div>
 
             <div className="navbarUser">
-                {userLoggedIn ? (<Link className={"link"} href={"/logout"}>Logout</Link>) : (<Link className={"link"} href={"/login"}>Login</Link>) }
+                {userLoggedIn ? (<a className={"link"} href={"/logout"}>Logout</a>) : (<a className={"link"} href={"/login"}>Login</a>) }
                 {userLoggedIn? (<div className="userIcon">Canaan White</div>) : null}
             </div>
 

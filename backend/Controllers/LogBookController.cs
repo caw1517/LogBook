@@ -36,6 +36,13 @@ namespace backend.Controllers
             return _logBookService.GetIcaoInfo(icao);
         }
         
+        //Get all logbooks by aircraft id
+        [HttpGet("AircraftRoutes/{id}")]
+        public IEnumerable<LogBookEntry> GetByAircraftId(int id)
+        {
+            return _logBookService.GetByAircraft(id);
+        }
+        
         //Get by id of user
         [Authorize]
         [HttpGet("routes/byUser")]
