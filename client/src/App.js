@@ -1,11 +1,11 @@
 import './css/Index.scss';
-import NavbarComp from "./components/Navbar";
 import AircraftSideBar from "./components/Sidebar";
+import NewNavbar from "./components/Navbar";
 
 function App() {
   return (
     <div className="App">
-        <NavbarComp />
+        <NewNavbar />
         <AircraftSideBar/>
     </div>
   );
