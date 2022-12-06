@@ -70,15 +70,10 @@ namespace backend.Services
             }
 
             string returnToken = CreateToken(user);
+            
+            //Store token in cookie
             //Return JWT    
             return returnToken;
-        }
-        
-        //Logout User
-        public async Task LogoutUser()
-        {
-            //Remove token from cache
-            await _cache.RemoveAsync(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
         }
 
         //Create Password Hash - password from UserRegisterDTO and converted to hash and salt
@@ -119,7 +114,7 @@ namespace backend.Services
 
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.Now.AddDays(1),
+                expires: DateTime.Now.AddHours(1),
                 signingCredentials: credentials
             );
 

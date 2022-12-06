@@ -12,9 +12,4 @@ public class DataContext : DbContext
     public DbSet<Aircraft> Aircrafts => Set<Aircraft>();
     public DbSet<LogBookEntry> LogBookEntries => Set<LogBookEntry>();
     public DbSet<User> Users => Set<User>();
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<LogBookEntry>().HasOne(a => a.Aircraft).WithMany(l => l.LogBookEntries);
-    }
 }

@@ -1,65 +1,32 @@
 import { useState, useEffect } from "react";
 
-//Font Awesome
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlusSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
-
-//Bootstrap
-
-import { Card, Row, Col, Button } from "react-bootstrap";
-
-export default function Aircraft({ a }) {
+export default function Aircraft({ a, fetchAircraft }) {
     const [aircraftLogbooks, setaircraftLogbooks] = useState([]);
-    const [loaded, setLoaded] = useState(false);
-    const [error, setError] = useState(null);
 
-    const deleteAircraft = (id) => {
-        fetch(`http://localhost:5126/api/Aircraft/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        }).then(() => {
-            window.location.reload();
-        });
+    async function deleteAircraft() {
+        await fetch(`http://localhost:5126/api/Aircraft/${a.id}`, {method: "DELETE"});
+        fetchAircraft();
     }
-
-    useEffect(() => {
-        fetch(`http://localhost:5126/api/LogBook/AircraftRoutes/${a.id}`)
-            .then(res => res.json())
-            .then(result => {
-                setLoaded(true);
-                setaircraftLogbooks(result);
-            },
-                (error) => {
-                    setLoaded(true);
-                    setError(error);
-                }
-            )
-    }, []);
 
     return (
         <>
-            <Card className="card-click">
-                <Card.Header>
-                    <Card.Title>Aircraft: {a.serialNumber}</Card.Title>
-                </Card.Header>
-                <Card.Body>
-                    <Row>
-                        <Card.Subtitle>Model: {a.aircraftType}</Card.Subtitle>
-                        <Card.Text>Routes Flown: {aircraftLogbooks.length}</Card.Text>
-                    </Row>
-                    <Row>
-                        <Col xs={4}>
-                            <Button variant="secondary" >Edit</Button>
-                        </Col>
-                        <Col>
-                            <Button variant="danger">Delete</Button>
-                        </Col>
-                    </Row>
-                </Card.Body>
-            </Card>
+            <div className={"cardMain"}>
+                <div className="cardHeader">
+                    <h3>Aircraft: {a.serialNumber}</h3>
+                </div>
+
+                <div className="cardBody">
+                    <div className="cardRow">
+                        <p>Model: {a.aircraftType}</p>
+                        <p>Routes Flown: {aircraftLogbooks.length}</p>
+                    </div>
+
+                    <div className="cardRow">
+                        <button className={"cardButton editButton"}>Edit</button>
+                        <button className={"cardButton deleteButton"} onClick={deleteAircraft} >Delete</button>
+                    </div>
+                </div>
+            </div>
         </>
-    )
+    );
 }

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
@@ -15,7 +16,7 @@ namespace backend.Controllers
             _aircraftService = aircraftService;
         }
         
-        //Get all aircraft
+        [Authorize]
         [HttpGet]
         public IEnumerable<Aircraft> GetAll()
         {

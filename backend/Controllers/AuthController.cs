@@ -42,21 +42,21 @@ namespace backend.Controllers
             {
                 return Unauthorized("Bad login details. Please try again."); 
             }
+            
+            //If token starts with bad request, return error
+            if (token.StartsWith("Bad"))
+            {
+                return BadRequest(token);
+            }
+
+            if (token.StartsWith("User not"))
+            {
+                return BadRequest(token);
+            }
 
             //Else return Ok with the token
             return Ok(token);
         }
-        
-        //Logout User
-        [HttpPost("logout")]
-        public IActionResult LogoutUser()
-        {
-            //Logout the user
-            _authService.LogoutUser();
 
-            //Return Ok
-            return Ok();
-        }
-        
     }
 }

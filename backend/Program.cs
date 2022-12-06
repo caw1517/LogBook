@@ -18,16 +18,6 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-var corsPolicyName = "_myAllowSpecificOrigins";
-
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(policy =>
-    {
-        policy.AllowAnyOrigin();
-    });
-});
-
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
@@ -37,7 +27,6 @@ builder.Services.AddSwaggerGen(options =>
         Name = "Authorization",
         Type = SecuritySchemeType.ApiKey
     });
-    options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -51,7 +40,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-builder.Services.AddHttpContextAccessor();
+builder.Services.AddCors(options => options.AddPolicy(name: "NgOrigins",
+    policy =>
+    {
+        policy.WithOrigins("http://localhost:3000")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    }));
+
+    builder.Services.AddHttpContextAccessor();
 builder.Services.AddDistributedMemoryCache();
 
 //Add DbContext's
@@ -73,7 +70,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors();
+app.UseCors("NgOrigins");
 
 app.UseHttpsRedirection();
 

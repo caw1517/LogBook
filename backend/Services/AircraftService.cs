@@ -32,6 +32,7 @@ namespace backend.Services
         //Add new aircraft
         public Aircraft AddAircraft(Aircraft newAircraft)
         {
+            
             _context.Aircrafts.Add(newAircraft);
             _context.SaveChanges();
 
@@ -58,9 +59,6 @@ namespace backend.Services
             {
                 aircraftToUpdate.SerialNumber = aircraft.SerialNumber;
                 aircraftToUpdate.AircraftType = aircraft.AircraftType;
-                aircraftToUpdate.FuelCapacity = aircraft.FuelCapacity;
-                aircraftToUpdate.FuelBurn = aircraft.FuelBurn;
-                aircraftToUpdate.MaxAltitude = aircraft.MaxAltitude;
             }
 
             _context.SaveChanges();

@@ -14,8 +14,6 @@ namespace backend.Models
         public string LastName { get; set; } = string.Empty;
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
-        public List<LogBookEntry>? LogBookEntries { get; set; }
-        public List<Aircraft>? Aircrafts { get; set; }
 
     }
 }
