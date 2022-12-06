@@ -1,33 +1,28 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import WebNavbar from "./WebNavbar";
-import MobileNavbar from "./MobileNavbar";
+import handleLogout from "../../services/ServiceFunctions";
 
-//Function to check if the screen is mobile or not
-function getWindowsWidth() {
-  const { innerWidth: width } = window;
-  return width;
-}
+export default function Navbar({ loggedIn }) {
+    return (
+        <>
+            <div className="navbar">
+                <div className="navbarRow">
 
-export default function NewNavbar({ loggedIn }) {
-    //State for window size
-    const [windowWidth, setWindowWidth] = useState(getWindowsWidth());
+                    <div className={"navbarCol"}></div>
 
-    useEffect(() => {
-        function handleResize() {
-            setWindowWidth(getWindowsWidth());
-        }
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
+                    <div className="navbarCol">
+                        <Link className={"link navLogo"} to={"/"}>AviatorLogs</Link>
+                    </div>
 
-    //Render based on mobile or not
-    if(windowWidth > 768) {
-        return <WebNavbar loggedIn={loggedIn} />
-    } else {
-        return (
-            <MobileNavbar loggedIn={loggedIn} />
-        )
-    }
+                    <div className="navbarCol">
+                        {loggedIn ?
+                            <Link className={"link userNavAction"} to="/logout" onClick={handleLogout}>Logout</Link> :
+                            <Link className={"link userNavAction"} to="/login">Sign In</Link>}
+                    </div>
+
+                </div>
+            </div>
+        </>
+    )
 }

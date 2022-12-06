@@ -1,16 +1,16 @@
+//CSS
 import './css/Index.scss';
-import NewNavbar from "./components/Navbar/Navbar";
 
-//Pages
+//Pages and Components
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import LogBook from "./pages/LogBook";
+import Navbar from "./components/Navbar/Navbar";
 
-import jwtDecode from "jwt-decode";
-
+//React
 import {useState, useEffect} from "react";
-
 import {BrowserRouter, Routes, Route} from "react-router-dom";
+import jwtDecode from "jwt-decode";
 
 function App() {
     const[loggedIn, setLoggedIn] = useState(false);
@@ -38,7 +38,7 @@ function App() {
   return (
             <BrowserRouter>
                 <div className="App">
-                    <NewNavbar loggedIn={loggedIn} />
+                    <Navbar loggedIn={loggedIn} />
                 <Routes>
                     <Route path="/login" element={<Login/>} />
                     <Route path="/" element={loggedIn ? <LogBook/> : <Home/>} />

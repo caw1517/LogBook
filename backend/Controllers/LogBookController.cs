@@ -44,12 +44,12 @@ namespace backend.Controllers
         }
         
         //Get by id of user
-        [Authorize]
+        /*[Authorize]
         [HttpGet("routes/byUser")]
         public IEnumerable<LogBookEntry> GetByUserId()
         {
             return _logBookService.GetByUser();
-        }
+        }*/
 
         [HttpPut("{id}")]
         public LogBookEntry UpdateLogBookEntry(int id, CreateLogbookDto request)

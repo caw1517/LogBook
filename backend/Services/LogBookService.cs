@@ -33,7 +33,7 @@ namespace backend.Services
         }
         
         //Get all logbooks made by user that requested them
-        public IEnumerable<LogBookEntry> GetByUser()
+        /*public IEnumerable<LogBookEntry> GetByUser()
         {
             string userId = GetIdByToken();
             
@@ -42,7 +42,7 @@ namespace backend.Services
 
             //Return that user's Logbook Entries
             return _context.LogBookEntries.AsNoTracking().Where(x => x.UserId == intId).ToList();
-        }
+        }*/
         
         //Get all logbooks by aircraft id
         public IEnumerable<LogBookEntry> GetByAircraft(int id)
@@ -140,17 +140,6 @@ namespace backend.Services
             var logBookEntry = _context.LogBookEntries.FirstOrDefault(l => l.id == id);
             _context.LogBookEntries.Remove(logBookEntry);
             _context.SaveChanges();
-        }
-
-        public string GetIdByToken()
-        {
-            var result = string.Empty;
-            if (_httpContextAccessor.HttpContext != null)
-            {
-                result = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            }
-
-            return result;
         }
     }
 }

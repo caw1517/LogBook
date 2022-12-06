@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
@@ -56,6 +57,14 @@ namespace backend.Controllers
 
             //Else return Ok with the token
             return Ok(token);
+        }
+        
+        //Get Id from token
+        [Authorize]
+        [HttpGet("tokenFromId")]
+        public string GetIdFromToken()
+        {
+            return _authService.GetIdByToken();
         }
 
     }

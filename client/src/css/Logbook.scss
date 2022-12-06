@@ -1,0 +1,23 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.addAircraft {
+  position: fixed;
+  z-index: 2;
+  color: white;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 300px;
+  width: 400px;
+  border-radius: 20px;
+  background: red;
+  padding: 1rem;
+}

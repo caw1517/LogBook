@@ -12,13 +12,16 @@ namespace backend.Services
             _context = context;
         }
 
-        //Int starting place for aircraft id
-        static int nextId = 2;
-
         //Get all
         public IEnumerable<Aircraft> GetAll()
         {
             return _context.Aircrafts.AsNoTracking().ToList();
+        }
+        
+        //Get aircraft by userId
+        public IEnumerable<Aircraft> GetByUserId(int userId)
+        {
+            return _context.Aircrafts.AsNoTracking().Where(x => x.UserId == userId).ToList();
         }
 
         //Get single by id

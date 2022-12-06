@@ -122,5 +122,17 @@ namespace backend.Services
 
             return jwt;
         }
+        
+        //Get user Id from token
+        public string GetIdByToken()
+        {
+            string result = string.Empty;
+            if (_httpContextAccessor.HttpContext != null)
+            {
+                result = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            }
+
+            return result;
+        }
     }
 }

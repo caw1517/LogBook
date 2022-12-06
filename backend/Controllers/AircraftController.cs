@@ -16,6 +16,7 @@ namespace backend.Controllers
             _aircraftService = aircraftService;
         }
         
+        //GetAll
         [Authorize]
         [HttpGet]
         public IEnumerable<Aircraft> GetAll()
@@ -36,6 +37,15 @@ namespace backend.Controllers
             {
                 return NotFound("Aircraft not found");
             }
+        }
+        
+        //Get Aircraft By UserId
+        [Authorize]
+        [HttpGet("user/{id}")]
+        public ActionResult<IEnumerable<Aircraft>> GetAircraftByUserId(int id)
+        {
+            var aircraft = _aircraftService.GetByUserId(id);
+            return Ok(aircraft);
         }
 
         //Add new aircraft

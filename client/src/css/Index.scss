@@ -1,7 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Cabin&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;1,100;1,700&display=swap');
 * {
-  font-family: 'Cabin', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -16,7 +15,6 @@ li {
   display: none;
 }
 
-/*Sidebar*/
 .overlay {
   position: fixed;
   top: 0;
@@ -30,14 +28,15 @@ li {
 
 .App {
   height: 100vh;
-  background: linear-gradient(#141e30, #243b55);
+  background: linear-gradient(#1f1a15, #332515);
 }
 
 /*Navbar*/
 .navbar {
+  z-index: 2;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
   text-align: center;
+  position: fixed;
 
   .navbarRow {
     height: 80px;
@@ -49,32 +48,26 @@ li {
     padding: 1rem 5rem;
     text-align: center;
 
+    @media (max-width: 500px) {
+      padding: 1rem 2rem;
+    }
+
     .navbarCol {
-      text-align: center;
-      display: flex;
-      gap: 1rem;
 
-      .userNav {
-        display: flex;
-        justify-content: center;
-        gap: 1rem;
-        align-items: center;
-        text-align: center;
-        color: white;
-        font-size: 1.2rem;
-        cursor: pointer;
+      .userNavAction {
+        padding: 5px 30px;
+        border-radius: 5px;
+        background: #ff6a00;
+        font-weight: 300;
+        transition: 0.2s ease all;
 
-        .userNavAction {
-          padding: 10px 20px;
-          border-radius: 5px;
-          border: 1px solid #03e9f4;
-
-            &:hover {
-                background-color: #03e9f4;
-                color: black;
-            }
+        @media (max-width: 500px) {
+          padding: 3px 15px;
         }
 
+          &:hover {
+              background-color: #ff6a00;
+          }
       }
 
       .link {
@@ -82,73 +75,35 @@ li {
         text-decoration: none;
         font-size: 1.2rem;
 
-        &:hover {
-          color: #03e9f4;
+        @media (max-width: 500px) {
+          font-size: 0.8rem;
         }
       }
 
       .navLogo {
-        font-size: 1.5rem;
+        font-size: 2rem;
+        margin-left: 7rem;
+
+        @media (max-width: 500px) {
+          font-size: 1.2rem;
+          margin-left: 0;
+        }
       }
     }
   }
 }
 
-/*Mobile Navbar*/
-.hamburgerMenu {
-  position: fixed;
-  right: 0;
-  margin: 1rem;
-  font-size: 2rem;
-  color: white;
-  cursor: pointer;
-  z-index: 9
-}
+/*Sidebar*/
 
-.closeMenu {
-  position: fixed;
-  right: 0;
-  margin: 1rem;
-  font-size: 2rem;
-  color: white;
-  cursor: pointer;
-  z-index: 9
-}
-
-.navbarMobile {
-  z-index: 6;
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  text-align: center;
-
-  .linkBox {
-    margin: 1rem;
-    padding: 1rem;
-
-    .link {
-      color: white;
-      text-decoration: none;
-      font-size: 1.5rem;
-
-      &:hover {
-        color: #03e9f4;
-      }
-    }
-  }
-
-  .navbarMobileHead {
-    padding: 1rem;
-    border-bottom: 1px solid #03e9f4;
-
-    .navLogo {
-      font-size: 2rem;
-    }
-
-  }
+.loadingData {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background: #1f1a15;
+    color: white;
 }
 
 .sidebar {
@@ -190,9 +145,10 @@ li {
     transition: 0.1s ease all;
     position: absolute;
     right: 0;
+    color: white;
 
     &:hover {
-      color: #fff;
+      color: #bbbbbb;
     }
   }
 
@@ -377,7 +333,7 @@ li {
     input:valid ~ label {
       top: -20px;
       left: 0;
-      color: #03e9f4;
+      color: #ff6a00;
       font-size: 12px;
     }
   }
@@ -386,7 +342,7 @@ li {
     position: relative;
     display: inline-block;
     padding: 10px 20px;
-    color: #03e9f4;
+    color: #ff6a00;
     font-size: 16px;
     text-decoration: none;
     text-transform: uppercase;
@@ -394,17 +350,17 @@ li {
     transition: .5s;
     margin-top: 40px;
     letter-spacing: 4px;
-    border: 1px solid #03e9f4;
+    border: 1px solid #ff6a00;
     background: transparent;
 
     &:hover {
-      background: #03e9f4;
+      background: #ff6a00;
       color: #fff;
       border-radius: 5px;
-      box-shadow: 0 0 5px #03e9f4,
-      0 0 25px #03e9f4,
-      0 0 50px #03e9f4,
-      0 0 100px #03e9f4;
+      box-shadow: 0 0 5px #ff6a00,
+      0 0 25px #ff6a00,
+      0 0 50px #ff6a00,
+      0 0 100px #ff6a00;
     }
   }
 }

@@ -1,22 +1,31 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faX} from "@fortawesome/free-solid-svg-icons";
 import Aircraft from "../aircraft/Aircraft";
+import AddAircraft from "../aircraft/AddAircraft";
 
-export default function SidebarBody({sidebarActive, handleSidebarClose, aircraft, fetchAircraft, error}) {
+import {useState} from "react";
+
+export default function SidebarBody({sidebarActive, handleSidebarClose, aircraft, fetchAircraft, error, userId}) {
+    const [addAircraftActive, setAddAircraftActive] = useState(true);
+
     return (
-        <div className={sidebarActive ? "sidebar sidebarActive" : "sidebar"} >
-            <div className="sidebarHeader">
-                <FontAwesomeIcon className={"sidebarClose"} icon={faX}  onClick={handleSidebarClose} />
-                <h2>Aircraft</h2>
-            </div>
+        <>
+            {addAircraftActive ? <AddAircraft userId={userId} setAddAircraftActive={setAddAircraftActive} /> : null}
 
-            <button className="addAircraftButton">Add Aircraft</button>
+            <div className={sidebarActive ? "sidebar sidebarActive" : "sidebar"} >
+                <div className="sidebarHeader">
+                    <FontAwesomeIcon className={"sidebarClose"} icon={faX}  onClick={handleSidebarClose} />
+                    <h2>Aircraft</h2>
+                </div>
 
-            <div className="sidebarBody">
-                {error ? <div>Error: {error}</div> : aircraft.map(a => (
-                    <Aircraft key={a.id} a={a} fetchAircraft={fetchAircraft} />
-                ))}
+                <button className="addAircraftButton">Add Aircraft</button>
+
+                <div className="sidebarBody">
+                    {error ? <div>Error: {error}</div> : aircraft.map(a => (
+                        <Aircraft key={a.id} a={a} fetchAircraft={fetchAircraft} />
+                    ))}
+                </div>
             </div>
-        </div>
+        </>
     )
 }
