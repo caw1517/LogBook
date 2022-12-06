@@ -49,6 +49,7 @@ namespace backend.Controllers
         }
 
         //Add new aircraft
+        [Authorize]
         [HttpPost]
         public IActionResult AddAircraft(Aircraft newAircraft)
         {
