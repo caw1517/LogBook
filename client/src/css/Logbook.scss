@@ -25,6 +25,10 @@
   gap: 1rem;
   align-items: center;
 
+    @media (max-width: 540px) {
+        width: 250px
+    }
+
   .closeModal {
     padding: 1rem;
     position: absolute;

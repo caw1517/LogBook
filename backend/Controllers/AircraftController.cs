@@ -23,8 +23,10 @@ namespace backend.Controllers
         {
             return _aircraftService.GetAll();
         }
-
+        
+        
         //Get single aircraft
+        [Authorize]
         [HttpGet("{id}")]
         public ActionResult<Aircraft> GetAircraftById(int id)
         {
@@ -58,6 +60,7 @@ namespace backend.Controllers
         }
 
         //Update aircraft
+        [Authorize]
         [HttpPut("{id}")]
         public IActionResult UpdateAircraft(int id, Aircraft aircraft)
         {
@@ -66,6 +69,7 @@ namespace backend.Controllers
         }
 
         //Delete aircraft
+        [Authorize]
         [HttpDelete("{id}")]
         public IActionResult DeleteAircraft(int id)
         {

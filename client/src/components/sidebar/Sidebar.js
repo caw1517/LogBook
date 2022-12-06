@@ -1,5 +1,5 @@
 //CSS
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import {faPlane} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import axios from "axios";
@@ -9,7 +9,6 @@ import SidebarBody from "./SidebarBody";
 
 //React
 import { useState, useEffect } from "react";
-import jwtDecode from "jwt-decode";
 
 export default function AircraftSideBar() {
     const [aircraft, setAircraft] = useState([]);
@@ -62,7 +61,7 @@ export default function AircraftSideBar() {
     return (
         <>
             <div className={sidebarActive ? "showSidebarHide" : "showSidebar"}>
-                <FontAwesomeIcon size={"2xl"} icon={faArrowRight} onClick={() => {
+                <FontAwesomeIcon size={"2xl"} icon={faPlane} onClick={() => {
                     setSidebarActive(!sidebarActive)
                     fetchAircraft();
                 }}/>

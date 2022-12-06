@@ -1,15 +1,30 @@
 import { useState, useEffect } from "react";
+import UpdateAircraft from "./UpdateAircraft";
+import axios from "axios";
 
-export default function Aircraft({ a, fetchAircraft }) {
+export default function Aircraft({ a, fetchAircraft, userId, }) {
     const [aircraftLogbooks, setaircraftLogbooks] = useState([]);
+    const [editAircraftActive, setEditAircraftActive] = useState(false);
 
-    async function deleteAircraft() {
-        await fetch(`http://localhost:5126/api/Aircraft/${a.id}`, {method: "DELETE"});
+    //Delete Aircraft
+    function deleteAircraft() {
+      axios.delete(`http://localhost:5126/api/Aircraft/${a.id}`, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+        }
+      });
         fetchAircraft();
     }
 
     return (
         <>
+            {editAircraftActive ? <UpdateAircraft
+                setEditAircraftActive={setEditAircraftActive}
+                a={a}
+                userId={userId}
+                fetchAircraft={fetchAircraft}
+            /> : null}
+
             <div className={"cardMain"}>
                 <div className="cardHeader">
                     <h3>Aircraft: {a.serialNumber}</h3>
@@ -22,7 +37,7 @@ export default function Aircraft({ a, fetchAircraft }) {
                     </div>
 
                     <div className="cardRow">
-                        <button className={"cardButton editButton"}>Edit</button>
+                        <button className={"cardButton editButton"} onClick={() => setEditAircraftActive(true)}>Edit</button>
                         <button className={"cardButton deleteButton"} onClick={deleteAircraft} >Delete</button>
                     </div>
                 </div>

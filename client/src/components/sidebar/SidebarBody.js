@@ -10,7 +10,8 @@ export default function SidebarBody({sidebarActive, handleSidebarClose, aircraft
 
     return (
         <>
-            {addAircraftActive ? <AddAircraft userId={userId} setAddAircraftActive={setAddAircraftActive} fetchAircraft={fetchAircraft}/> : null}
+            {addAircraftActive ? <AddAircraft userId={userId} method={"POST"} setAddAircraftActive={setAddAircraftActive}
+                                              fetchAircraft={fetchAircraft}/> : null}
 
             <div className={sidebarActive ? "sidebar sidebarActive" : "sidebar"} >
                 <div className="sidebarHeader">
@@ -24,7 +25,8 @@ export default function SidebarBody({sidebarActive, handleSidebarClose, aircraft
 
                 <div className="sidebarBody">
                     {error ? <div>Error: {error}</div> : aircraft.map(a => (
-                        <Aircraft key={a.id} a={a} fetchAircraft={fetchAircraft} />
+                        <Aircraft key={a.id} a={a} fetchAircraft={fetchAircraft}
+                                    userId={userId}/>
                     ))}
                 </div>
             </div>
