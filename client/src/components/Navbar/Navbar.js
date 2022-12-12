@@ -1,9 +1,14 @@
-import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import handleLogout from "../../services/ServiceFunctions";
 
-export default function Navbar({ loggedIn }) {
+export default function NewNavbar({ loggedIn }) {
+
+    function handleLogout() {
+        localStorage.removeItem("token");
+        window.location.reload();
+    }
+
     return (
         <>
             <div className="navbar">

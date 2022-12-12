@@ -1,29 +1,23 @@
-import { useState, useEffect } from "react";
-import UpdateAircraft from "./UpdateAircraft";
-import axios from "axios";
+import { useState } from "react";
 
-export default function Aircraft({ a, fetchAircraft, userId, }) {
+import { useDispatch } from "react-redux";
+import { deleteAircraft } from "../../slices/aircraftSlice";
+
+export default function Aircraft({ a }) {
+
+    const dispatch = useDispatch();
     const [aircraftLogbooks, setaircraftLogbooks] = useState([]);
     const [editAircraftActive, setEditAircraftActive] = useState(false);
 
-    //Delete Aircraft
-    function deleteAircraft() {
-      axios.delete(`http://localhost:5126/api/Aircraft/${a.id}`, {
-        headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-        }
-      });
-        fetchAircraft();
-    }
 
     return (
         <>
-            {editAircraftActive ? <UpdateAircraft
+            {/*{editAircraftActive ? <UpdateAircraft
                 setEditAircraftActive={setEditAircraftActive}
                 a={a}
                 userId={userId}
                 fetchAircraft={fetchAircraft}
-            /> : null}
+            /> : null}*/}
 
             <div className={"cardMain"}>
                 <div className="cardHeader">
@@ -38,7 +32,9 @@ export default function Aircraft({ a, fetchAircraft, userId, }) {
 
                     <div className="cardRow">
                         <button className={"cardButton editButton"} onClick={() => setEditAircraftActive(true)}>Edit</button>
-                        <button className={"cardButton deleteButton"} onClick={deleteAircraft} >Delete</button>
+                        <button className={"cardButton deleteButton"} onClick={() => {
+                            dispatch(deleteAircraft(a.id));}
+                        } >Delete</button>
                     </div>
                 </div>
             </div>

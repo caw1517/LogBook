@@ -1,88 +1,36 @@
-//CSS
+//FontAwesome
 import {faPlane} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-import axios from "axios";
 
 //Components
 import SidebarBody from "./SidebarBody";
 
-//React
-import { useState, useEffect } from "react";
+//Redux
+import { useSelector, useDispatch } from "react-redux";
+import { closeSidebar, toggleSidebar } from "../../slices/sidebarSlice";
 
 export default function AircraftSideBar() {
-    const [aircraft, setAircraft] = useState([]);
-    const [loaded, setLoaded] = useState(false);
-    const [error, setError] = useState(null);
-    const [userId, setUserId] = useState(null);
-    const [userIdLoaded, setUserIdLoaded] = useState(false);
 
-    //Sidebar
-    const [sidebarActive, setSidebarActive] = useState(false);
-    const handleSidebarClose = () => setSidebarActive(false);
-
-    let config = {
-        headers: {
-            'Authorization': 'Bearer ' + localStorage.getItem('token')
-        }
-    }
-
-    //Get Id from token
-    async function getIdFromToken() {
-        try {
-            //Call API to get claims of user ID and store it
-            const id = await axios.get("http://localhost:5126/api/Auth/tokenFromId", config);
-            setUserId(id.data);
-            setUserIdLoaded(true);
-        } catch (error) {
-            setError(error)
-            setUserIdLoaded(true);
-        }
-    }
-
-    //Fetch Aircraft
-    const fetchAircraft = async () => {
-        try {
-            //Call API to get aircraft based off users Id
-            const res = await axios.get(`http://localhost:5126/api/Aircraft/user/${userId}`, config);
-            setAircraft(res.data);
-            setLoaded(true);
-        } catch (err)
-        {
-            setError(err);
-        }
-    }
-
-    useEffect(() => {
-        getIdFromToken()
-    }, [userIdLoaded]);
-
+    //Set up redux actions and init state
+    const dispatch = useDispatch();
+    const sidebarActive = useSelector((state) => state.sidebar.sidebarActive);
 
     return (
         <>
+            {/*Controls if the open or close button is displayed based on sidebar status*/}
             <div className={sidebarActive ? "showSidebarHide" : "showSidebar"}>
                 <FontAwesomeIcon size={"2xl"} icon={faPlane} onClick={() => {
-                    setSidebarActive(!sidebarActive)
-                    fetchAircraft();
+                    dispatch(toggleSidebar());
                 }}/>
             </div>
 
-            {sidebarActive ? (<div className="overlay" onClick={handleSidebarClose}></div>) : null}
+            {/*Closes sidebar if user clicks off the sidebar*/}
+            {sidebarActive ? (<div className="overlay" onClick={() => {
+                dispatch(closeSidebar());}
+            }></div>) : null}
 
-            {/*Set Page to load if user Id is not ready since most data is based off that*/}
-            {userIdLoaded ? null : (
-                <div className="loadingData">
-                    <h3>Loading...</h3>
-                </div>
-            )}
-            <SidebarBody
-                sidebarActive={sidebarActive}
-                handleSidebarClose={handleSidebarClose}
-                aircraft={aircraft}
-                fetchAircraft={fetchAircraft}
-                error={error}
-                userId={userId}
-            />
+            {/*Pass Sidebar status to body*/}
+            <SidebarBody />
         </>
     )
 }

@@ -5,43 +5,40 @@ import './css/Index.scss';
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import LogBook from "./pages/LogBook";
-import Navbar from "./components/Navbar/Navbar";
+import NewNavbar from "./components/Navbar/Navbar";
 
 //React
-import {useState, useEffect} from "react";
+import { useEffect } from "react";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
-import jwtDecode from "jwt-decode";
+
+//Redux
+import { useDispatch, useSelector } from "react-redux";
+import {getUserId, verifyAuth} from "./slices/userSlice";
 
 function App() {
-    const[loggedIn, setLoggedIn] = useState(false);
 
-    //Verify token
-    function verifyToken() {
-        const token = localStorage.getItem('token');
-        if(token) {
-            const decoded = jwtDecode(token);
-            const currentTime = Date.now() / 1000;
-            if(decoded.exp < currentTime) {
-                localStorage.removeItem('token');
-                setLoggedIn(false);
-            } else {
-                setLoggedIn(true);
-            }
-        }
-    }
+    //Setup Redux state and dispatch
+    const dispatch = useDispatch();
+    const isAuthed = useSelector((state) => state.user.isAuthed);
+    const userToken = useSelector((state) => state.user.token);
 
+    //Verify Authentication on initial load
     useEffect(() => {
-        verifyToken();
-    }, []);
+        dispatch(verifyAuth());
 
+        //If user is authenticated, get their user ID
+        if(isAuthed){
+            dispatch(getUserId(userToken));
+        }
+    }, [dispatch, isAuthed]);
 
   return (
             <BrowserRouter>
                 <div className="App">
-                    <Navbar loggedIn={loggedIn} />
+                    <NewNavbar loggedIn={isAuthed} />
                 <Routes>
                     <Route path="/login" element={<Login/>} />
-                    <Route path="/" element={loggedIn ? <LogBook/> : <Home/>} />
+                    <Route path="/" element={isAuthed ? <LogBook/> : <Home/>} />
                 </Routes>
                 </div>
             </BrowserRouter>

@@ -1,48 +1,45 @@
-import {useState} from 'react';
-import axios from "axios";
+//React
+import { useState } from 'react';
+
+//Redux
+import { useSelector, useDispatch } from "react-redux";
+import { loginUser } from "../slices/userSlice";
+
 export default function Login() {
 
-    //Set Initial State
-    const [userName, setUserName] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState(null);
+    const dispatch = useDispatch();
 
-    //Handle Login
-    function submitLogin(e) {
-        e.preventDefault()
-        //Login
-        if(userName === '' || password === '') {
-            setError("Please enter your username and password")
-        } else {
-            axios.post("http://localhost:5126/api/Auth/login", {
-                userName: userName,
-                password: password,
-            })
-                .then(res => {
-                    //Store token in local storage
-                    localStorage.setItem('token', res.data);
-                    //Redirect to home page
-                    window.location.href = "/";
-                }).catch(err => {
-                setError(err.response.data);
-            })
-        }
-    }
+    //Redux State
+    const error = useSelector((state) => state.user.error);
+
+    //Set Initial State
+    const [user, setUser] = useState({
+        userName: '',
+        password: ''
+    });
+
     return (
         <div className="login-box">
             <h2>Login</h2>
             <form>
                 <div className="user-box">
-                    <input type="text" name="" required="" onChange={e => setUserName(e.target.value) } />
+                    <input type="text" name="" required="" onChange={(e) => {
+                        setUser({...user, userName: e.target.value})
+                    }}/>
                         <label>Username</label>
                 </div>
                 <div className="user-box">
-                    <input type="password" name="" required="" onChange={e => setPassword(e.target.value)}/>
+                    <input type="password" name="" required="" onChange={(e) => {
+                        setUser({...user, password: e.target.value})
+                    }}/>
                         <label>Password</label>
                 </div>
 
                 {error ? <p className="error">{error}</p> : null}
-                <button type="button" onClick={submitLogin} className="submit">Submit</button>
+                <button type="button" onClick={(e) => {
+                    dispatch(loginUser(user));
+                }
+                } className="submit">Submit</button>
             </form>
         </div>
     )

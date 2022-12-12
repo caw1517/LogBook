@@ -91,5 +91,60 @@
       }
     }
   }
+}
 
+/*Logbook Section*/
+.cardSection {
+  display: grid;
+  padding: 1rem;
+  justify-items: center;
+  grid-template-columns: repeat(auto-fit, minmax(475px, 1fr));
+
+}
+
+/*Logbook Card*/
+.logbookCard {
+  text-align: center;
+  background: rgba(0, 0, 0, 0.5);
+  width: 450px;
+  border-radius: 20px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+
+  @media (max-width: 640px) {
+    width: 250px
+  }
+
+  .logbookCardHeader {
+    padding: 1.5rem;
+    font-size: 1.2rem;
+    border-bottom: 1px solid #ff6a00;
+  }
+
+  .logbookCardBody {
+    padding: 1.5rem;
+    font-size: 1rem;
+
+    .logbookCardRow {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 1rem;
+      text-align: start;
+    }
+
+    button {
+      padding: .5rem 2rem;
+      margin: 1rem;
+      background: transparent;
+      border: 1px solid #ff6a00;
+      color: white;
+      transition: 0.1s;
+      cursor: pointer;
+
+      &:hover {
+        background: #ff6a00;
+      }
+    }
+  }
 }

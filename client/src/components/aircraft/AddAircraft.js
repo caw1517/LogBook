@@ -2,13 +2,22 @@ import '../../css/Logbook.scss';
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-import {useEffect, useState} from "react";
-import axios from "axios";
+import { useState } from "react";
 
-export default function AddAircraft({ userId, setAddAircraftActive, fetchAircraft, method, setEditAircraft, a}) {
-    const [serialNumber, setSerialNumber] = useState("");
-    const [aircraftType, setAircraftType] = useState("");
-    const [error, setError] = useState(null);
+//Redux
+import { useSelector, useDispatch } from "react-redux";
+import { addNewAircraft } from "../../slices/aircraftSlice";
+
+export default function AddAircraft({ setAddAircraftActive}) {
+    const dispatch = useDispatch();
+    const userId = useSelector((state) => state.user.userId);
+    const error = useSelector((state) => state.aircraft.error);
+
+    const [aircraft, setAircraft] = useState({
+        serialNumber: '',
+        aircraftType: '',
+        userId: userId
+    });
 
 /*    function updateAircraft(e) {
         e.preventDefault();
@@ -32,7 +41,7 @@ export default function AddAircraft({ userId, setAddAircraftActive, fetchAircraf
         }
     }*/
 
-    function addAircraft(e) {
+/*    function addAircraft(e) {
         e.preventDefault();
         if(serialNumber === '' || aircraftType === '') {
             setError("Please enter a serial number and aircraft type");
@@ -53,6 +62,11 @@ export default function AddAircraft({ userId, setAddAircraftActive, fetchAircraf
                 setError(err.response.data);
             })
         }
+    }*/
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        dispatch(addNewAircraft(aircraft));
     }
 
     return(
@@ -70,16 +84,24 @@ export default function AddAircraft({ userId, setAddAircraftActive, fetchAircraf
 
                 <h3>Add Aircraft</h3>
 
-                <form action="submit" onSubmit={addAircraft}>
+                <form>
                     <div className="formGroup">
                         <label htmlFor="serialNumber">Serial Number</label>
-                        <input type="text" name="serialNumber" placeholder={"N123AB"} onChange={e => setSerialNumber(e.target.value)} />
+                        <input type="text" name="serialNumber" placeholder={"N123AB"} onChange={(e) => {
+                            setAircraft({
+                                ...aircraft, serialNumber: e.target.value
+                            });
+                        }}/>
                     </div>
                     <div className="formGroup">
                         <label htmlFor="aircraftType">Aircraft Type</label>
-                        <input type="text" name="aircraftType" placeholder={"B737 / Boeing 737"} onChange={e => setAircraftType(e.target.value)} />
+                        <input type="text" name="aircraftType" placeholder={"B737 / Boeing 737"} onChange={(e) => {
+                            setAircraft({
+                                ...aircraft, aircraftType: e.target.value
+                            });
+                        }}/>
                     </div>
-                    <button type="submit">Add Aircraft</button>
+                    <button type="submit" onClick={handleSubmit}>Add Aircraft</button>
                 </form>
             </div>
         </>

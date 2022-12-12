@@ -21,7 +21,7 @@ li {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.6);
   transition: 850ms;
   z-index: 5;
 }
@@ -29,13 +29,15 @@ li {
 .App {
   height: 100vh;
   background: linear-gradient(#032121, #152f3a);
+  overflow-y: scroll;
 }
 
 /*Navbar*/
 .navbar {
-  z-index: 2;
+  z-index: 3;
   width: 100%;
   text-align: center;
+  position: relative;
 
   .navbarRow {
     height: 80px;
@@ -106,7 +108,7 @@ li {
 }
 
 .sidebar {
-  background: rgba(0,0,0,.5);
+  background: rgba(0,0,0,.8);
   width: 350px;
   height: 100vh;
   display: flex;
