@@ -20,10 +20,9 @@ function SidebarBody() {
     const userId = useSelector((state) => state.user.userId);
     const aircraftError = useSelector((state) => state.aircraft.error);
 
-
     return (
         <>
-            {addAircraftActive ? <AddAircraft userId={userId} />: null}
+            {addAircraftActive ? <AddAircraft userId={userId} /> : null}
 
             <div className={sidebarActive ? "sidebar sidebarActive" : "sidebar"} >
                 <div className="sidebarHeader">

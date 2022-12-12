@@ -10,7 +10,6 @@ namespace backend.Models
         public int Id { get; set; }
         public string SerialNumber { get; set; } = string.Empty;
         public string AircraftType { get; set; } = string.Empty;
-        
         public int? UserId { get; set; }
     }
 }

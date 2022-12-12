@@ -1,14 +1,16 @@
 import { useState } from "react";
 
-import { useDispatch } from "react-redux";
-import { deleteAircraft } from "../../slices/aircraftSlice";
+//Redux
+import { useDispatch, useSelector } from "react-redux";
+import { deleteAircraft, fetchAircraftByUser } from "../../slices/aircraftSlice";
 
 export default function Aircraft({ a }) {
 
+    //Redux dispatch and state
     const dispatch = useDispatch();
     const [aircraftLogbooks, setaircraftLogbooks] = useState([]);
     const [editAircraftActive, setEditAircraftActive] = useState(false);
-
+    const userId = useSelector((state) => state.user.userId);
 
     return (
         <>
@@ -32,9 +34,14 @@ export default function Aircraft({ a }) {
 
                     <div className="cardRow">
                         <button className={"cardButton editButton"} onClick={() => setEditAircraftActive(true)}>Edit</button>
-                        <button className={"cardButton deleteButton"} onClick={() => {
-                            dispatch(deleteAircraft(a.id));}
-                        } >Delete</button>
+                        <button className={"cardButton deleteButton"} onClick={async () => {
+                            //On click, delete aircraft
+                            await dispatch(deleteAircraft(a.id))
+                                .then(() => {
+                                    //Re-fetch aircraft to update component
+                                    dispatch(fetchAircraftByUser(userId));
+                                })
+                        }}>Delete</button>
                     </div>
                 </div>
             </div>

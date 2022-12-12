@@ -1,26 +1,36 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-//Fetch Aircraft
+//Fetch Aircraft by User ID
 export const fetchAircraftByUser = createAsyncThunk(
     "aircraft/fetchAircraftByUser",
     async (userId, thunkApi) => {
+        //Send GET request to the backend to fetch aircraft by user ID
         const response = await axios.get(`http://localhost:5126/api/Aircraft/user/${userId}`, {
             headers: {
+                //Set the authorization header to the token
                 "Authorization": `Bearer ${localStorage.getItem("token")}`
             }
         });
+
+        //Return the aircraft data
         return response.data;
     })
 
+
+//Delete Aircraft
 export const deleteAircraft = createAsyncThunk(
     "aircraft/deleteAircraft",
     async (aircraftId, thunkApi) => {
+        //Send DELETE request to the backend to delete the aircraft
         const response = await axios.delete(`http://localhost:5126/api/Aircraft/${aircraftId}`, {
             headers: {
+                //Set the authorization header to the token
                 "Authorization": `Bearer ${localStorage.getItem("token")}`
             }
         });
+
+        //Return success message
         return response.data;
     });
 
@@ -28,26 +38,20 @@ export const deleteAircraft = createAsyncThunk(
 export const addNewAircraft = createAsyncThunk(
     "aircraft/addAircraft",
     async (aircraft, thunkApi) => {
-        if(aircraft.serialNumber === '' || aircraft.aircraftType === '') {
-            throw thunkApi.rejectWithValue("Please enter a serial number and aircraft type");
-            console.log("Please enter a serial number and aircraft type");
-        } else {
-            try {
-                console.log("Aircraft: ", aircraft);
-                await axios.post("http://localhost:5126/api/Aircraft", {
-                    serialNumber: aircraft.serialNumber,
-                    aircraftType: aircraft.aircraftType,
-                    userId: aircraft.userId
-                }, {
-                    headers: {
-                        "Authorization": `Bearer ${localStorage.getItem("token")}`
-                    }
-                });
-                return aircraft;
-            } catch (error) {
-                console.log("Error: ", error);
-                throw thunkApi.rejectWithValue(error.response.data);
-            }
+        try {
+            await axios.post("http://localhost:5126/api/Aircraft", {
+                serialNumber: aircraft.serialNumber,
+                aircraftType: aircraft.aircraftType,
+                userId: aircraft.userId
+            }, {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+            return aircraft;
+        } catch (error) {
+            console.log("Error: ", error);
+            throw thunkApi.rejectWithValue(error.response.data);
         }
     }
 )
@@ -58,6 +62,7 @@ const initialState = {
     error: null,
     addAircraftActive: false,
     editAircraftActive: false,
+    addAircraftError: null,
 }
 
 const aircraftSlice = createSlice({
@@ -66,6 +71,12 @@ const aircraftSlice = createSlice({
     reducers: {
         toggleAddAircraft: (state) => {
             state.addAircraftActive = !state.addAircraftActive;
+        },
+        setStatus: (state, action) => {
+            state.status = action.payload;
+        },
+        setAircraftError: (state, action) => {
+            state.addAircraftError = action.payload;
         }
     },
     extraReducers: (builder) => {
@@ -98,5 +109,5 @@ const aircraftSlice = createSlice({
     }
 })
 
-export const { toggleAddAircraft } = aircraftSlice.actions;
+export const { toggleAddAircraft, setAircraftError, setStatus } = aircraftSlice.actions;
 export default aircraftSlice.reducer;
